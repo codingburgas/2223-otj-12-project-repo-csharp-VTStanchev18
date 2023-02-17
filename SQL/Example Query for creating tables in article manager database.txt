@@ -1,0 +1,52 @@
+CREATE TABLE [Permissions]
+(
+	Id int,
+	CanCreate bit,
+	CanRead bit,
+	CanUpdate bit,
+	CanDelete bit,
+	PRIMARY KEY(Id)
+)
+
+CREATE TABLE Roles
+(
+	Id int,
+	[Name] varchar(50),
+	IsAdmin bit,
+	PermissionId int,
+	PRIMARY KEY(Id),
+	FOREIGN KEY(PermissionId) REFERENCES [Permissions](Id)
+)
+
+CREATE TABLE Users
+(
+	Id int,
+	FirstName varchar(50),
+	LastName varchar(50),
+	Age int,
+	Email varchar(50),
+	[Password] varchar(50),
+	[RoleId] int,
+	PRIMARY KEY(Id),
+	FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+)
+
+CREATE TABLE Articles
+(
+	Id int,
+	CreatedOn datetime DEFAULT GETDATE(),
+	EditedOn datetime,
+	PRIMARY KEY(Id)
+)
+
+CREATE TABLE UserArticle
+(
+	Id int,
+	UserId int,
+	ArticleId int,
+	PRIMARY KEY(Id),
+	FOREIGN KEY(UserId) REFERENCES Users(Id),
+	FOREIGN KEY(ArticleId) REFERENCES Articles(Id)
+)
+
+/*Include Img property to "Articles" table*/
