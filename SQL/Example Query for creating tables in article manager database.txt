@@ -36,6 +36,7 @@ CREATE TABLE Articles
 	Id int,
 	CreatedOn datetime DEFAULT GETDATE(),
 	EditedOn datetime,
+	[Image] image,
 	PRIMARY KEY(Id)
 )
 
@@ -48,5 +49,3 @@ CREATE TABLE UserArticle
 	FOREIGN KEY(UserId) REFERENCES Users(Id),
 	FOREIGN KEY(ArticleId) REFERENCES Articles(Id)
 )
-
-/*Include Img property to "Articles" table*/
