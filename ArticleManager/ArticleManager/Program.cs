@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ArticleManager.Data;
+app.UseAuthentication();;
 
 internal class Program
 {
@@ -35,4 +39,10 @@ internal class Program
 
         app.Run();
     }
-}
+}var connectionString = builder.Configuration.GetConnectionString("ArticleManagerContextConnection") ?? throw new InvalidOperationException("Connection string 'ArticleManagerContextConnection' not found.");
+
+builder.Services.AddDbContext<ArticleManagerContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<ArticleManagerUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ArticleManagerContext>();
