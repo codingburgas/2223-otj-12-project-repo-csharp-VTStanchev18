@@ -1,13 +1,27 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ArticleManager.Data;
-app.UseAuthentication();;
+using ArticleManager.Models;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
+
+//
 
 internal class Program
 {
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Add database context
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+        // Add controllers and views
+        services.AddControllersWithViews();
+    }
+
+
     private static void Main(string[] args)
     {
-        
 
         var builder = WebApplication.CreateBuilder(args);
         
@@ -17,7 +31,7 @@ internal class Program
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
-
+        app.UseAuthentication();;
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
@@ -38,11 +52,15 @@ internal class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            endpoints.MapControllerRoute(
+                name: "user",
+                pattern: "{controller=User}/{action=Register}/{id?}");
+        });
+
     }
-}var connectionString = builder.Configuration.GetConnectionString("ArticleManagerContextConnection") ?? throw new InvalidOperationException("Connection string 'ArticleManagerContextConnection' not found.");
-
-builder.Services.AddDbContext<ArticleManagerContext>(options =>
-    options.UseSqlServer(connectionString));
-
-builder.Services.AddDefaultIdentity<ArticleManagerUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ArticleManagerContext>();
+}
