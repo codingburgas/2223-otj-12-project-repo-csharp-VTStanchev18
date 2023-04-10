@@ -3,30 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using ArticleManager.Data;
 using ArticleManager.Models;
 using System.Configuration;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-
-
-//
 
 internal class Program
 {
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Add database context
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-        // Add controllers and views
-        services.AddControllersWithViews();
-    }
-
-
     private static void Main(string[] args)
     {
 
         var builder = WebApplication.CreateBuilder(args);
         
+        // Add database context
+        IServiceCollection services = builder.Services;
+        services.AddDbContext<AppDbContext>(options =>
+           options.UseSqlServer("DefaultConnection"));
+
+        // Add controllers and views
+        services.AddControllersWithViews();
         builder.Services.AddControllersWithViews();
 
         // Add services to the container.
