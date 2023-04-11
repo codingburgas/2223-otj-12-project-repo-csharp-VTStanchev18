@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArticleManager.Models
 {
@@ -9,7 +10,7 @@ namespace ArticleManager.Models
         {
             UserArticles = new HashSet<UserArticle>();
         }
-
+        [Key]
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
