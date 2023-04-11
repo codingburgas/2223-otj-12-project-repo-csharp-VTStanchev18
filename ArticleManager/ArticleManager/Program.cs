@@ -13,8 +13,7 @@ internal class Program
         
         // Add database context
         IServiceCollection services = builder.Services;
-        services.AddDbContext<AppDbContext>(options =>
-           options.UseSqlServer("DefaultConnection"));
+        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         // Add controllers and views
         services.AddControllersWithViews();
