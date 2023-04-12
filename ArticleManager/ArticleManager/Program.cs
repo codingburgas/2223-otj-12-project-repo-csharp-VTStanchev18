@@ -14,7 +14,13 @@ internal class Program
         // Add database context
         IServiceCollection services = builder.Services;
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy =>
+                policy.RequireRole("Admin"));
+            options.AddPolicy("EditorOrAdmin", policy =>
+                policy.RequireRole("Editor", "Admin"));
+        });
         // Add controllers and views
         services.AddControllersWithViews();
         builder.Services.AddControllersWithViews();

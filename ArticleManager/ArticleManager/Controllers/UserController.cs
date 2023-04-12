@@ -1,4 +1,6 @@
 ﻿using ArticleManager.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArticleManager.Controllers
@@ -45,6 +47,15 @@ namespace ArticleManager.Controllers
             ModelState.AddModelError("", "Invalid email or password");
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+
 
         public IActionResult Index()
         {
