@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArticleManager.Controllers
 {
@@ -42,7 +44,7 @@ namespace ArticleManager.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("AfterLogin", "Home", user);
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View();
@@ -54,6 +56,20 @@ namespace ArticleManager.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminView()
+        {
+            // This action can only be accessed by users with the "Admin" role.
+            return View();
+        }
+
+        [Authorize(Policy = "EditorOrAdmin")]
+        public IActionResult EditorView()
+        {
+            // This action can be accessed by users with either the "Editor" or "Admin" role.
+            return View();
         }
 
 
