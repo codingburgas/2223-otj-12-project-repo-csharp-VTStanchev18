@@ -46,3 +46,20 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+    .navbar-nav > li {
+        margin-left: 1rem;
+    }
+
+.navbar-text {
+    font-weight: bold;
+}
+
+.float-right {
+    float: right !important;
+}
+

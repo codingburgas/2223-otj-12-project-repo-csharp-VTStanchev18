@@ -38,6 +38,7 @@ namespace ArticleManager.Controllers
             return View();
         }
 
+        
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
@@ -45,9 +46,14 @@ namespace ArticleManager.Controllers
             if (user != null)
             {
                 return RedirectToAction("Index", "Home");
+                Test(user);
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View();
+        }
+        public void Test(ArticleManager.Models.User user)
+        {
+            TempData["MessageUser"] = user;
         }
 
         [HttpPost]
