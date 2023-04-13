@@ -23,36 +23,47 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
+                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
                                     <a class="nav-link" href="/">Home</a>
                                 </li>
                             </ul>
-                            <!--@if ()
-                            {
-                                <ul class="navbar-nav ml-auto">
+                         </div>
+                        <ul class="navbar-nav">
+                            @using Microsoft.AspNetCore.Http
+
+                            <ul class="navbar-nav">
+                                @if (TempData["Message"] != null)
+                                {
                                     <li class="nav-item">
-                                        <span class="navbar-text mr-3">Welcome, @User.Identity.Name!</span>
+                                        <span class="navbar-text">@TempData["Message"]</span>
+                                    </li>
+                                }
+                                @if (Context.User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <span class="navbar-text">Hello, @Context.User.Identity.Name!</span>
                                     </li>
                                     <li class="nav-item">
                                         <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post">
+                                            @Html.AntiForgeryToken()
                                             <button type="submit" class="nav-link btn btn-link">Logout</button>
                                         </form>
                                     </li>
-                                </ul>
-                            }
-                            else-->
-                            
-                                <ul class="navbar-nav ml-auto">
+                                }
+                                else
+                                {
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="User" asp-action="Register">Register</a>
+                                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
                                     </li>
-                                </ul>
-                            
+                                }
+                            </ul>
+
+
                         </div>
                     </div>
                 </nav>

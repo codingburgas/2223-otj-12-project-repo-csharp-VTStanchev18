@@ -44,7 +44,7 @@ namespace ArticleManager.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
-                return RedirectToAction("AfterLogin", "Home", user);
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View();
@@ -55,8 +55,10 @@ namespace ArticleManager.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            TempData["Message"] = "You have been logged out.";
             return RedirectToAction("Index", "Home");
         }
+
 
         [Authorize(Roles = "Admin")]
         public IActionResult AdminView()
