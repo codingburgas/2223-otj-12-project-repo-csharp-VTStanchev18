@@ -9,6 +9,7 @@ namespace ArticleManager.Controllers
 {
     public class UserController : Controller
     {
+        User user1;
         public readonly AppDbContext _context;
 
         public UserController(AppDbContext context)
@@ -35,21 +36,21 @@ namespace ArticleManager.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            return View(user1);
         }
 
-        
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            user1 = user;
             if (user != null)
             {
-                return RedirectToAction("Index", "Home");
-                Test(user);
+                return RedirectToAction("Index", "Home", user);
+                //Test(user);
             }
             ModelState.AddModelError("", "Invalid email or password");
-            return View();
+            return View(user);
         }
         public void Test(ArticleManager.Models.User user)
         {
@@ -83,7 +84,7 @@ namespace ArticleManager.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(user1);
         }
     }
 }
