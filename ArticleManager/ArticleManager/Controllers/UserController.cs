@@ -43,11 +43,12 @@ namespace ArticleManager.Controllers
         public IActionResult Login(string email, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            TempData["UserName"] = user.FirstName + user.LastName;
             user1 = user;
             if (user != null)
             {
                 return RedirectToAction("Index", "Home", user);
-                //Test(user);
+                // Test(user);
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View(user);
