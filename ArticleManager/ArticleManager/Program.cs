@@ -21,6 +21,13 @@ internal class Program
             options.AddPolicy("EditorOrAdmin", policy =>
                 policy.RequireRole("Editor", "Admin"));
         });
+        services.AddAuthentication("Cookies")
+        .AddCookie("Cookies", options =>
+        {
+            options.Cookie.Name = "MyApp.Cookie";
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            options.SlidingExpiration = true;
+        });
         // Add controllers and views
         services.AddControllersWithViews();
         builder.Services.AddControllersWithViews();
