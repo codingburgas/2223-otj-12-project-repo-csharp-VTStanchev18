@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArticleManager.Controllers
 {
@@ -44,6 +45,7 @@ namespace ArticleManager.Controllers
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             TempData["UserName"] = user.FirstName + " " + user.LastName;
+            TempData["UserRole"] = user.RoleId;
             user1 = user;
             if (user != null)
             {
@@ -65,6 +67,37 @@ namespace ArticleManager.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             TempData["Message"] = "You have been logged out.";
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            //if (!User.IsInRole("Admin"))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+
+            var user = _context.Users.Include(u => u.RoleId).FirstOrDefault(u => u.Id == id);
+            return View("Edit");
+        }
+
+        [HttpPost]
+        public IActionResult Update(User user)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Edit", user);
+            }
         }
 
 

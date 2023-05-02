@@ -1,0 +1,40 @@
+﻿@model User
+
+<h1>Edit User</h1>
+
+<form asp-action="Update" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="FirstName">First Name:</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName">Last Name:</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Age">Age:</label>
+        <input asp-for="Age" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RoleId">Role:</label>
+        <select asp-for="RoleId" asp-items="@(new SelectList(ViewBag.Roles, "Id", "Name", Model.RoleId))" class="form-control">
+            <option value="">-- Select Role --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
