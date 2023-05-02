@@ -26,7 +26,7 @@
                          <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/">Home</a>
+                                    <a class="nav-link" href="/">Начална страница</a>
                                 </li>
                             </ul>
                          </div>
@@ -37,22 +37,22 @@
                                 @if (TempData["UserName"] != null)
                                 {
                                     <li class="nav-item">
-                                        <span class="navbar-text">Hello, @TempData["UserName"]</span>
+                                        <span class="navbar-text">Здравейте, @TempData["UserName"]</span>
                                     </li>
                                     <li class="nav-item">
                                         <form id="logoutForm" asp-controller="User" asp-action="Logout" method="post">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="nav-link btn btn-link">Logout</button>
+                                            <button type="submit" class="nav-link btn btn-link">Изход</button>
                                         </form>
                                     </li>
                                 }
                                 else
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                                        <a class="nav-link" asp-controller="User" asp-action="Login">Вход</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="User" asp-action="Register">Register</a>
+                                        <a class="nav-link" asp-controller="User" asp-action="Register">Регистрация</a>
                                     </li>
                                 }
                             </ul>
