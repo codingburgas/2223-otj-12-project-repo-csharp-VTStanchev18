@@ -71,17 +71,11 @@ namespace ArticleManager.Controllers
 
         public IActionResult Edit(int id)
         {
-            //if (!User.IsInRole("Admin"))
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
-
-            var user = _context.Users.Include(u => u.RoleId).FirstOrDefault(u => u.Id == id);
-            return View("Edit");
+            return RedirectToAction("Edit");
         }
 
         [HttpPost]
-        public IActionResult Update(User user)
+        public IActionResult Update()
         {
             if (!User.IsInRole("Admin"))
             {
