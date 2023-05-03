@@ -72,7 +72,7 @@ namespace ArticleManager.Controllers
         [HttpPost]
         public IActionResult EditUser()
         {
-            return RedirectToAction("UpdateUser", "Edit");
+            return View("UpdateUser"); ;
         }
 
         [HttpPost]
