@@ -36,12 +36,12 @@
                             <ul class="navbar-nav" asp-controller="User" asp-action="Test">
                                 @if (TempData["UserName"] != null)
                                 {
-                                    @if ((int)TempData["UserRole"] == 1)
+                                    @*@if ((int)TempData["UserRole"] == 1)
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="User" asp-action="EditUser">Организация на потребители</a>
                                         </li>
-                                    }
+                                    }*@
                                     <li class="nav-item">
                                         <span class="navbar-text">Здравейте, @TempData["UserName"]</span>
                                     </li>
