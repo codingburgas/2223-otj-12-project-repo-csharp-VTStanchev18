@@ -46,7 +46,7 @@ namespace ArticleManager.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             TempData["UserName"] = user.FirstName + " " + user.LastName;
             TempData["UserRole"] = user.RoleId;
-            user1 = user;
+            //TempData["User"] = user;
             if (user != null)
             {
                 return RedirectToAction("Index", "Home", user);
@@ -69,15 +69,16 @@ namespace ArticleManager.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Edit(int id)
+        [HttpPost]
+        public IActionResult EditUser()
         {
-            return RedirectToAction("Edit");
+            return RedirectToAction("UpdateUser", "Edit");
         }
 
         [HttpPost]
-        public IActionResult Update()
+        public IActionResult Update(User user)
         {
-            if (!User.IsInRole("Admin"))
+            if ((int)TempData["UserRole"] != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -90,7 +91,7 @@ namespace ArticleManager.Controllers
             }
             else
             {
-                return View("Edit", user);
+                return View("UpdateUser", user);
             }
         }
 
