@@ -1,6 +1,7 @@
 ﻿@model User
 @{
     ViewData["Title"] = "Home Page";
+    var user = (User)ViewBag.Message;
 }
 
 <div class="text-center" asp-action="Login">

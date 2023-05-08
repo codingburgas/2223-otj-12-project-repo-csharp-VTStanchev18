@@ -10,13 +10,13 @@ namespace ArticleManager.Controllers
 {
     public class UserController : Controller
     {
-        User user1;
         public readonly AppDbContext _context;
 
         public UserController(AppDbContext context)
         {
             _context = context;
         }
+        public User CurrentUser { get; set; }
 
         public IActionResult Register()
         {
@@ -37,23 +37,24 @@ namespace ArticleManager.Controllers
 
         public IActionResult Login()
         {
-            return View(user1);
+            return View(CurrentUser);
         }
 
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-            TempData["UserName"] = user.FirstName + " " + user.LastName;
-            TempData["UserRole"] = user.RoleId;
+            CurrentUser = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            TempData["UserName"] = CurrentUser.FirstName + " " + CurrentUser.LastName;
+            TempData["UserRole"] = CurrentUser.RoleId;
+            ViewBag.Message = CurrentUser;
             //TempData["User"] = user;
-            if (user != null)
+            if (CurrentUser != null)
             {
-                return RedirectToAction("Index", "Home", user);
+                return RedirectToAction("Index", "Home", CurrentUser);
                 // Test(user);
             }
             ModelState.AddModelError("", "Invalid email or password");
-            return View(user);
+            return View(CurrentUser);
         }
         public void Test(ArticleManager.Models.User user)
         {
@@ -69,10 +70,11 @@ namespace ArticleManager.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult EditUser()
         {
-            return View("UpdateUser"); ;
+            var user = (User)ViewBag.Message;
+            return View("UpdateUser", CurrentUser); ;
         }
 
         [HttpPost]
@@ -113,7 +115,7 @@ namespace ArticleManager.Controllers
 
         public IActionResult Index()
         {
-            return View(user1);
+            return View(CurrentUser);
         }
     }
 }
