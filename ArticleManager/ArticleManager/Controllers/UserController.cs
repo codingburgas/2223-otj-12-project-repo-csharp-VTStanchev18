@@ -46,6 +46,10 @@ namespace ArticleManager.Controllers
             CurrentUser = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             TempData["UserName"] = CurrentUser.FirstName + " " + CurrentUser.LastName;
             TempData["UserRole"] = CurrentUser.RoleId;
+            TempData["Email"] = email;
+            TempData.Keep("UserName");
+            TempData.Keep("UserRole");
+            TempData.Keep("Email");
             ViewBag.Message = CurrentUser;
             //TempData["User"] = user;
             if (CurrentUser != null)
@@ -71,10 +75,14 @@ namespace ArticleManager.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUser()
+        public IActionResult Edit()
         {
-            var user = (User)ViewBag.Message;
-            return View("UpdateUser", CurrentUser); ;
+            var uMail = TempData["Email"];
+
+            var userEf = _context.Users.Where(u => u.Email == uMail).FirstOrDefault();
+            ViewBag.Roles = _context.Roles.ToList();
+
+            return View(userEf);
         }
 
         [HttpPost]
