@@ -88,20 +88,15 @@ namespace ArticleManager.Controllers
         [HttpPost]
         public IActionResult Update(User user)
         {
-            if ((int)TempData["UserRole"] != 1)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (ModelState.IsValid)
             {
                 _context.Users.Update(user);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return View("UpdateUser", user);
+                return View("Edit", user);
             }
         }
 
