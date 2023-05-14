@@ -11,7 +11,6 @@ internal class Program
 
         var builder = WebApplication.CreateBuilder(args);
         
-        // Add database context
         IServiceCollection services = builder.Services;
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
         services.AddAuthorization(options =>
@@ -28,20 +27,19 @@ internal class Program
             options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             options.SlidingExpiration = true;
         });
-        // Add controllers and views
+        
         services.AddControllersWithViews();
         builder.Services.AddControllersWithViews();
 
-        // Add services to the container.
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
         app.UseAuthentication();;
-        // Configure the HTTP request pipeline.
+        
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            
             app.UseHsts();
         }
 

@@ -51,11 +51,10 @@ namespace ArticleManager.Controllers
             TempData.Keep("UserRole");
             TempData.Keep("Email");
             ViewBag.Message = CurrentUser;
-            //TempData["User"] = user;
+
             if (CurrentUser != null)
             {
                 return RedirectToAction("Index", "Home", CurrentUser);
-                // Test(user);
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View(CurrentUser);
@@ -99,22 +98,6 @@ namespace ArticleManager.Controllers
                 return View("Edit", user);
             }
         }
-
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminView()
-        {
-            // This action can only be accessed by users with the "Admin" role.
-            return View();
-        }
-
-        [Authorize(Policy = "EditorOrAdmin")]
-        public IActionResult EditorView()
-        {
-            // This action can be accessed by users with either the "Editor" or "Admin" role.
-            return View();
-        }
-
 
         public IActionResult Index()
         {
