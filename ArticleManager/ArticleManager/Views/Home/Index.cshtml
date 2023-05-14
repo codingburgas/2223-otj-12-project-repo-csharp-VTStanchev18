@@ -9,26 +9,20 @@
     
     @if (TempData["UserName"] != null)
     {
-
-        <h1>Create a paragraph and save it to a file</h1>
+        <h1>Създайте параграф</h1>
 
         @using (Html.BeginForm("SaveToFile", "Home"))
         {
-            <form method="post" action="/Home/SaveToFile">
-                <div class="form-group">
-                    <label for="Description">Enter a paragraph:</label>
-                    <textarea class="form-control" id="Description" name="Description" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
+              <form method="post" action="/Home/SaveToFile">
+                   <div class="form-group">
+                        <label for="Description">Вкарай текст:</label>
+                        <textarea class="form-control" id="Description" name="Description" rows="5" required></textarea>
+                   </div>
+                    <button type="submit" class="btn btn-primary">Запази</button>
+              </form>
 
         }
-
-        @if (Model != null)
-        {
-            <h2>The following paragraph has been saved to a file:</h2>
-            <p>@Model</p>
-        }
+        
     }
     else
     {
@@ -41,5 +35,7 @@
 
     }
 </div>
+
+
 
 
