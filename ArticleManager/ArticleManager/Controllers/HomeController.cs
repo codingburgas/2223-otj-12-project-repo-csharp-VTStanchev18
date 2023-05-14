@@ -1,6 +1,8 @@
 ﻿using ArticleManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ArticleManager.Controllers
 {
@@ -18,6 +20,22 @@ namespace ArticleManager.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SaveToFile(string paragraph)
+        {
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyProjectFolder");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            string filePath = Path.Combine(folderPath, "Article.txt");
+            System.IO.File.WriteAllText(filePath, paragraph);
+
+            return View("Index", paragraph);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -28,5 +46,6 @@ namespace ArticleManager.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
     }
 }

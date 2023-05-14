@@ -32,7 +32,7 @@
     <div class="form-group">
         <label asp-for="RoleId">Роля:</label>
         <select asp-for="RoleId" asp-items="@(new SelectList(ViewBag.Roles, "Id", "Name", Model.RoleId))" class="form-control">
-            <option value="">-- Select Role --</option>
+            <option value="">-- Избери роля --</option>
         </select>
     </div>
 

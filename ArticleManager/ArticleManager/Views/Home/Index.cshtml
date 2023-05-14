@@ -1,4 +1,5 @@
 ﻿@model User
+@*@model string*@
 @{
     ViewData["Title"] = "Home Page";
     var user = (User)ViewBag.Message;
@@ -8,9 +9,7 @@
     
     @if (TempData["UserName"] != null)
     {
-        <div>
-
-        </div>
+        
     }
     else
     {
@@ -20,6 +19,25 @@
             само одобрените публикации. Системата разполага с иструменти, които позволяват на редактори и потребители
             да имат сегментиран достъп до публикациите.
         </p>
+
+        <h1>Create a paragraph and save it to a file</h1>
+
+        @using (Html.BeginForm("SaveToFile", "Home"))
+        {
+            <div>
+                @Html.TextAreaFor(model => model, 5, 50, new { @class = "form-control" })
+            </div>
+
+            <div>
+                <input type="submit" value="Save to file" />
+            </div>
+        }
+
+        @if (Model != null)
+        {
+            <h2>The following paragraph has been saved to a file:</h2>
+            <p>@Model</p>
+        }
     }
 </div>
 
