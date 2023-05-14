@@ -23,7 +23,6 @@ namespace ArticleManager.Controllers
         [HttpPost]
         public IActionResult SaveToFile(IFormCollection form)
         {
-            // Get the value of the Description field from the form
             string description = form["Description"];
 
             if (string.IsNullOrEmpty(description))
@@ -43,11 +42,8 @@ namespace ArticleManager.Controllers
 
                 var filePath = Path.Combine(folderPath, "Article.txt");
 
-
-                // Create a file stream to write to the file
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    // Create a stream writer to write the text to the file
                     using (StreamWriter writer = new StreamWriter(fileStream))
                     {
                         writer.Write(description);
@@ -58,9 +54,6 @@ namespace ArticleManager.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception
-                // ...
-
                 ModelState.AddModelError("", "An error occurred while saving the file. Please try again later.");
                 return View("Index");
             }
