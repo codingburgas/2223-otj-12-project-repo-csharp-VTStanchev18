@@ -21,20 +21,52 @@ namespace ArticleManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveToFile(string paragraph)
+        public IActionResult SaveToFile(IFormCollection form)
         {
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyProjectFolder");
+            // Get the value of the Description field from the form
+            string description = form["Description"];
 
-            if (!Directory.Exists(folderPath))
+            if (string.IsNullOrEmpty(description))
             {
-                Directory.CreateDirectory(folderPath);
+                ModelState.AddModelError("", "Please enter a paragraph.");
+                return View("Index");
             }
 
-            string filePath = Path.Combine(folderPath, "Article.txt");
-            System.IO.File.WriteAllText(filePath, paragraph);
+            try
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Articles");
 
-            return View("Index", paragraph);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var filePath = Path.Combine(folderPath, "Article.txt");
+
+
+                // Create a file stream to write to the file
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    // Create a stream writer to write the text to the file
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.Write(description);
+                    }
+                }
+
+                return View("Index", description);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // ...
+
+                ModelState.AddModelError("", "An error occurred while saving the file. Please try again later.");
+                return View("Index");
+            }
         }
+
+
 
         public IActionResult Privacy()
         {
